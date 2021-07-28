@@ -1,0 +1,9 @@
+extends template
+block content
+    div
+        | Привіт #{userName}
+        br
+        | реєстрація пройшла успішно , для активації перейдіть по силці
+        br
+        a(href=`http://localhost:3000/users/authorization?token=${authorization_Token}`) клікни тут!
+
