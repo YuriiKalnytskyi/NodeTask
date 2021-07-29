@@ -27,5 +27,7 @@ module.exports = {
 
     password: Joi.string()
       .regex(regexp.PASSWORD)
-  })
+  }),
+  forgotPassword: Joi.string()
+    .regex(regexp.PASSWORD)
 };

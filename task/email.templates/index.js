@@ -1,4 +1,6 @@
-const { WELCOME, UPDATE, DELETE } = require('../constants/emailActionsEnum');
+const {
+  WELCOME, UPDATE, DELETE, FORGOT_PASSWORD, PASSWORD_CHANGED
+} = require('../constants/emailActionsEnum');
 
 module.exports = {
   [WELCOME]: {
@@ -12,5 +14,13 @@ module.exports = {
   [DELETE]: {
     templateName: 'delete',
     subject: 'user delete'
+  },
+  [FORGOT_PASSWORD]: {
+    templateName: 'forgot_token',
+    subject: 'password recovery'
+  },
+  [PASSWORD_CHANGED]: {
+    templateName: 'password_changed',
+    subject: 'password changed'
   }
 };

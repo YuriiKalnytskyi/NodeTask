@@ -14,6 +14,9 @@ const userSchema = new Schema({
   authorization_Token: {
     type: String
   },
+  forgot_Token: {
+    type: String
+  },
   photo: [{
     type: String
   }],

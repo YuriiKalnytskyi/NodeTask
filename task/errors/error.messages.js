@@ -17,6 +17,10 @@ module.exports = {
     message: 'Record not found',
     code: '404.0'
   },
+  USER_NOT_FOUND: {
+    message: 'User not found',
+    code: '404.0'
+  },
   USER_EMAIL_PASSWORD: {
     message: 'login or password is incorrect',
     code: '400.3'

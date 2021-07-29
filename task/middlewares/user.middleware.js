@@ -3,7 +3,7 @@ const {
 } = require('../constants/file.enum');
 const {
   statusCode, errorMess: {
-    AVATAR, NO_TOKEN, WRONG_TOKEN, RECORD_NOT_FOUND, USER_EMAIL
+    AVATAR, NO_TOKEN, WRONG_TOKEN, RECORD_NOT_FOUND, USER_EMAIL, USER_NOT_FOUND
   }, ErrorHandler
 } = require('../errors');
 const { userHelper } = require('../helpers');
@@ -64,6 +64,7 @@ module.exports = {
   createUserValid: async (req, res, next) => {
     try {
       const { email } = req.body;
+
       const { authorization_Token } = userHelper.authorizationToken();
 
       const userObject = { ...req.body, authorization_Token, activatedStatus: false };
@@ -136,17 +137,53 @@ module.exports = {
       next(e);
     }
   },
- changePassword: (req, res, next) => {
+  changePasswordValid: async (req, res, next) => {
     try {
-      const { } = req.body
+      const { email } = req.body;
 
+      const user = await User.findOne({ email });
+
+      if (!user) {
+        throw new ErrorHandler(statusCode.NOT_FOUND, USER_NOT_FOUND.message, USER_NOT_FOUND.code);
+      }
+      const { forgot_Token } = userHelper.forgotToken();
+
+      await User.updateOne({ _id: user._id }, { forgot_Token });
+
+      const Object = { email: user.email, forgot_Token };
+
+      req.user = Object;
+      next();
     } catch (e) {
       next(e);
     }
   },
-  forgotPassword: (req, res, next) => {
+  forgotPasswordValid: async (req, res, next) => {
     try {
+      const { forgot_Token, password } = req.body;
 
+      const { error } = await userValidator.forgotPassword.validate(password);
+
+      if (error) {
+        throw new ErrorHandler(statusCode.NOT_FOUND, error.details[0].message, USER_NOT_FOUND.code);
+      }
+
+      if (!forgot_Token) {
+        throw new ErrorHandler(statusCode.DAD_REQUEST, NO_TOKEN.message, NO_TOKEN.code);
+      }
+
+      await userHelper.verifyForgotToken(forgot_Token);
+
+      const user = await User.findOne({ forgot_Token });
+
+      if (!user) {
+        throw new ErrorHandler(statusCode.NOT_FOUND, USER_NOT_FOUND.message, USER_NOT_FOUND.code);
+      }
+
+      const userObject = { user, password };
+
+      req.user = userObject;
+      next();
     } catch (e) {
       next(e);
     }

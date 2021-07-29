@@ -4,8 +4,10 @@ module.exports = {
   ACCESS_TOKEN_SECRET: process.env.ACCESS_TOKEN_SECRET || 'Secret',
   REFRESH_TOKEN_SECRET: process.env.REFRESH_TOKEN_SECRET || 'SuperSecret',
   REGISTRY_TOKEN_SECRET: 'dpdpfmkckcdc' || 'Secret',
+  FORGOT_TOKEN_SECRET: 'dpdpfmkckcdc' || 'Secret',
   AUTHORIZATION: 'Authorization',
   REGISTRY_TOKEN_TIME: '10m',
+  FORGOT_TOKEN_TIME: '10m',
   ACCESS_TOKEN_TIME: '10m',
   REFRESH_TOKEN_TIME: '30d',
   ACCESS: 'access',
@@ -14,4 +16,5 @@ module.exports = {
   PASSWORD: process.env.PASSWORD,
   USERS: 'users',
   AVATAR: 'avatar',
+  PHOTO: 'photo'
 };
